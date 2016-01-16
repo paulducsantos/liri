@@ -8,9 +8,9 @@ var keys = require("./keys.js");
 var params = process.argv.slice(2);
 getCommand(params);
 
-fs.writeFile('data-logger.txt', 'Hello Node.js', (err) => {
+fs.writeFile('data-logger.txt', "", (err) => {
   if (err) throw err;
-  console.log('It\'s saved!');
+  // console.log('It\'s saved!');
 });
 
 function getCommand (command) {
@@ -50,7 +50,9 @@ function getTweets () {
     if(error) throw error;
     for (var i = 0; i < 20; i++) {
       console.log(tweet[i].text);
+      writeToFile(tweet[i].text + "\n");
       console.log("Tweeted on: " + tweet[i].created_at + "\n");
+      writeToFile("Tweeted on: " + tweet[i].created_at + "\n")
     }
     // console.log(tweet[0].id);  // Tweet body. 
     //console.log(response);  // Raw response object. 
@@ -74,9 +76,14 @@ function spotifyIt (song) {
         return;
     }
     console.log("Artist: " + data.tracks.items[0].artists[0].name);
+    writeToFile("Artist: " + data.tracks.items[0].artists[0].name);
     console.log("Song: " + data.tracks.items[0].name);
+    writeToFile("Song: " + data.tracks.items[0].name);
     console.log("Link: " + data.tracks.items[0].preview_url);
+    writeToFile("Link: " + data.tracks.items[0].preview_url);
     console.log("Album: " + data.tracks.items[0].album.name + "\n");
+    var data = "Artist: " + data.tracks.items[0].artists[0].name
+    writeToFile("Album: " + data.tracks.items[0].album.name + "\n");
   });
 }
 
@@ -118,5 +125,12 @@ function doFile () {
       var sendData = [data[i], data[i+1]];
       getCommand(sendData);
     }
+  });
+}
+
+function writeToFile (logThis) {
+  fs.appendFile("data-logger.txt", logThis, (err) => {
+    if (err) throw err;
+    // console.log('The "data to append" was appended to file!');
   });
 }
