@@ -1,3 +1,4 @@
+debugger;
 var fs = require("fs");
 var request = require('request');
 var Twitter = require("twitter");
@@ -6,6 +7,11 @@ var keys = require("./keys.js");
 
 var params = process.argv.slice(2);
 getCommand(params);
+
+fs.writeFile('data-logger.txt', 'Hello Node.js', (err) => {
+  if (err) throw err;
+  console.log('It\'s saved!');
+});
 
 function getCommand (command) {
   switch (command[0]) {
@@ -44,7 +50,7 @@ function getTweets () {
     if(error) throw error;
     for (var i = 0; i < 20; i++) {
       console.log(tweet[i].text);
-      console.log("Tweeted on: " + tweet[i].created_at);
+      console.log("Tweeted on: " + tweet[i].created_at + "\n");
     }
     // console.log(tweet[0].id);  // Tweet body. 
     //console.log(response);  // Raw response object. 
@@ -70,7 +76,7 @@ function spotifyIt (song) {
     console.log("Artist: " + data.tracks.items[0].artists[0].name);
     console.log("Song: " + data.tracks.items[0].name);
     console.log("Link: " + data.tracks.items[0].preview_url);
-    console.log("Album: " + data.tracks.items[0].album.name);
+    console.log("Album: " + data.tracks.items[0].album.name + "\n");
   });
 }
 
@@ -99,7 +105,7 @@ function movieGetter (movie) {
       console.log("Plot: " + movieDetails.Plot);
       console.log("Rotten Tomatoes Rating: " + movieDetails.tomatoRating);
       console.log("Tomato Meter: " + movieDetails.tomatoMeter);
-      console.log("Rotten Tomatoes Link: " + movieDetails.tomatoURL);
+      console.log("Rotten Tomatoes Link: " + movieDetails.tomatoURL + "\n");
     }
   });
 }
@@ -107,7 +113,10 @@ function movieGetter (movie) {
 function doFile () {
   fs.readFile("./random.txt", "utf8", (err, data) => {
     if (err) throw err;
-    data = data.split(",");
-    getCommand(data);
+    data = data.replace(/\n/g, ',').split(",");
+    for (var i = 0; i < data.length; i += 2) {
+      var sendData = [data[i], data[i+1]];
+      getCommand(sendData);
+    }
   });
 }
