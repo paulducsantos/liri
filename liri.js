@@ -50,7 +50,7 @@ function getTweets () {
     if(error) throw error;
     for (var i = 0; i < 20; i++) {
       console.log(tweet[i].text);
-      writeToFile(tweet[i].text + "\n");
+      writeToFile("\n" + tweet[i].text + "\n");
       console.log("Tweeted on: " + tweet[i].created_at + "\n");
       writeToFile("Tweeted on: " + tweet[i].created_at + "\n")
     }
@@ -75,15 +75,16 @@ function spotifyIt (song) {
         console.log('Error occurred: ' + err);
         return;
     }
-    console.log("Artist: " + data.tracks.items[0].artists[0].name);
-    writeToFile("Artist: " + data.tracks.items[0].artists[0].name);
-    console.log("Song: " + data.tracks.items[0].name);
-    writeToFile("Song: " + data.tracks.items[0].name);
-    console.log("Link: " + data.tracks.items[0].preview_url);
-    writeToFile("Link: " + data.tracks.items[0].preview_url);
-    console.log("Album: " + data.tracks.items[0].album.name + "\n");
-    var data = "Artist: " + data.tracks.items[0].artists[0].name
-    writeToFile("Album: " + data.tracks.items[0].album.name + "\n");
+    data = data.tracks.items[0];
+    console.log("Artist: " + data.artists[0].name);
+    writeToFile("\n" + "Artist: " + data.artists[0].name + "\n");
+    console.log("Song: " + data.name);
+    writeToFile("Song: " + data.name + "\n");
+    console.log("Link: " + data.preview_url);
+    writeToFile("Link: " + data.preview_url + "\n");
+    console.log("Album: " + data.album.name + "\n");
+    var data = "Artist: " + data.artists[0].name;
+    writeToFile("Album: " + data.album.name + "\n");
   });
 }
 
@@ -103,16 +104,27 @@ function movieGetter (movie) {
     if (!error && response.statusCode == 200) {
       var movieDetails = JSON.parse(body);
       console.log("Title: " + movieDetails.Title);
+      writeToFile("\n" + "Title: " + movieDetails.Title + "\n");
       console.log("Year: " + movieDetails.Year);
+      writeToFile("Year: " + movieDetails.Year + "\n");
       console.log("IMDB Rating: " + movieDetails.imdbRating);
+      writeToFile("IMDB Rating: " + movieDetails.imdbRating + "\n");
       console.log("Country: " + movieDetails.Country);
+      writeToFile("Country: " + movieDetails.Country + "\n");
       console.log("Language: " + movieDetails.Language);
+      writeToFile("Language: " + movieDetails.Language + "\n");
       console.log("Plot: " + movieDetails.Plot);
+      writeToFile("Plot: " + movieDetails.Plot + "\n");
       console.log("Cast: " + movieDetails.Actors);
+      writeToFile("Cast: " + movieDetails.Actors + "\n");
       console.log("Plot: " + movieDetails.Plot);
+      writeToFile("Plot: " + movieDetails.Plo + "\n");
       console.log("Rotten Tomatoes Rating: " + movieDetails.tomatoRating);
+      writeToFile("Rotten Tomatoes Rating: " + movieDetails.tomatoRating + "\n");
       console.log("Tomato Meter: " + movieDetails.tomatoMeter);
+      writeToFile("Tomato Meter: " + movieDetails.tomatoMeter + "\n");
       console.log("Rotten Tomatoes Link: " + movieDetails.tomatoURL + "\n");
+      writeToFile("Rotten Tomatoes Link: " + movieDetails.tomatoURL + "\n");
     }
   });
 }
